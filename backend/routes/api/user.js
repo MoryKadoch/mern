@@ -9,7 +9,7 @@ router.get('/test',(req, res) => res.send('Route testing'));
 
 router.get('/', (req,res) =>{
     User.find()
-        .then(user => res.json(user))
+        .then(user => res.json(user) )
         .catch(err => res.status(404).json({noUserFound:'Pas de user trouvé ...'}))
 } );
 
@@ -20,11 +20,32 @@ router.get('/:id', (req,res) =>{
 } );
 
 
-router.post('/', (req,res) =>{
+router.post('/signup', (req,res) =>{
     User.create(req.body)
         .then(user => res.json({msg: 'User bien ajoutée'}))
         .catch(err => res.status(404).json({error:'Impossible d\'ajouter utilisateur'}));
 } );
+
+router.post('/login', (req, res) => {
+    const { email, password } = req.body;
+    console.log(req.body);
+
+    User.findOne({ email: email, password: password })
+        .then(user => {
+            if (!user) {
+                return res.status(404).json({ error: 'Utilisateur non trouvé' });
+            }
+
+            // Authentification réussie, faire autre chose si nécessaire
+            console.log(user);
+            res.status(200).json({ message: 'Authentification réussie' });
+        })
+        .catch(err => res.status(500).json({ error: 'Erreur lors de la recherche de l\'utilisateur' }));
+});
+
+
+
+
 
 router.put('/id', (req,res) =>{
     User.findByIdAndUpdate(req.params.id, req.body)
