@@ -66,10 +66,11 @@ router.put('/:id', (req,res) =>{
         .catch(err => res.status(404).json({error:'Impossible de mettre à jour'}));
 } );
 
-router.delete('/:id', (req, res) =>{
-  User.findByIdAndRemove({"_id": req.params.id})
-  .then(user => res.json({msg: 'Mise à jour éffectué!'}))  
-  .catch(err => res.status(404).json({error:'Impossible de mettre à jour'})); r
-})
 
+router.delete('/:id', (req, res) => {
+    User.findByIdAndRemove(req.params.id)
+      .then(user => res.json({ msg: 'Utilisateur supprimé !' }))
+      .catch(err => res.status(404).json({ error: 'Impossible de supprimer l\'utilisateur' }));
+  });
+  
 module.exports= router;
