@@ -42,14 +42,14 @@ const EditUserForm = () => {
                 },
             };
             await axios.put(`http://localhost:5000/api/user/${id}`, updatedUser, config);
-            window.location.href = '/user-list';
+            window.location.href = '/admin/user-list';
         } catch (error) {
             console.error(error);
         }
     };
 
     return (
-        <Container maxWidth="xs">
+        <Container maxWidth="xs" style={{ marginTop: '20px', marginBottom: '20px' }}>
             <Box my={8}>
                 <Typography variant="h4" align="center" gutterBottom>
                     Edit User

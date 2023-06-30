@@ -23,7 +23,8 @@ const Cart = () => {
     }, []);
 
     if (Object.keys(cart).length === 0 || products.length === 0) {
-        return <Typography variant="h2">Votre panier est vide</Typography>;
+        // center horizontally and vertically
+        return <Typography variant="h2" align="center" style={{ height: 'calc(100vh - 400px)', marginTop: '20px' }}>Votre panier est vide</Typography>;
     }
 
     const removeFromCart = async (id) => {
