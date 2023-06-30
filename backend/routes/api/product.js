@@ -5,7 +5,6 @@ const secretKey = 'KEY';
 
 const Product = require('../../models/Product');
 
-// Function d'authentification
 function auth(req, res, next) {
     const authHeader = req.header('Authorization');
     if (!authHeader) return res.status(401).json({ message: 'Accès refusé. Pas d\'en-tête d\'autorisation fourni.' });
@@ -57,7 +56,6 @@ router.get('/:id', (req, res) => {
     .catch(err => res.status(404).json({ noProductFound: 'Pas de produit trouvé ...' }))
 });
 
-// Route pour déduire la quantité commandée du stock
 router.post('/deduct-stock/:id', (req, res) => {
   const { quantity } = req.body;
   const productId = req.params.id;
