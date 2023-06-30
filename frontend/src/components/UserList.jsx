@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Container, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from '@material-ui/core';
+import { Container, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, TextField} from '@material-ui/core';
 
 const UserList = () => {
     const [users, setUsers] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
 
     useEffect(() => {
         const fetchUsers = async () => {
@@ -42,11 +43,26 @@ const UserList = () => {
         }
     };
 
+    const handleSearchChange = event => {
+        setSearchTerm(event.target.value);
+    };
+
+    const filteredUsers = users.filter(user =>
+        (`${user.firstName} ${user.lastName}`).toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
     return (
         <Container style={{ marginTop: '20px', marginBottom: '20px' }}>
             <Typography variant="h4" align="center" gutterBottom>
                 User List
             </Typography>
+            <TextField
+                style={{ margin: '10px auto', width: '80%' }}
+                variant="outlined"
+                value={searchTerm}
+                onChange={handleSearchChange}
+                placeholder="Search for a user..."
+            />
             <TableContainer component={Paper}>
                 <Table aria-label="simple table">
                     <TableHead>
@@ -57,7 +73,7 @@ const UserList = () => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {users.map((user) => (
+                        {filteredUsers.map((user) => (
                             <TableRow key={user._id}>
                                 <TableCell component="th" scope="row">
                                     {`${user.firstName} ${user.lastName}`}

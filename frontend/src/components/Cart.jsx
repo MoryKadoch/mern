@@ -27,10 +27,10 @@ const Cart = () => {
     }
 
     const removeFromCart = async (id) => {
-        let cart = {...cart};
-        delete cart[id];
-        localStorage.setItem('cart', JSON.stringify(cart));
-        setCart(cart);
+        let newCart = { ...cart };
+        delete newCart[id];
+        localStorage.setItem('cart', JSON.stringify(newCart));
+        setCart(newCart);
     };
 
     const validateCart = async () => {
@@ -45,12 +45,12 @@ const Cart = () => {
         setCart({});
     };
 
-    if(products.length === 0) {
+    if (products.length === 0) {
         return <Typography variant="h2">Chargement...</Typography>;
     }
 
     return (
-        <Grid container spacing={4}>
+        <Grid container spacing={4} style={{ padding: '20px 0' }}>
             {Object.keys(cart).map((productId, index) => (
                 <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
                     <Card>
@@ -69,9 +69,11 @@ const Cart = () => {
                     </Card>
                 </Grid>
             ))}
-            <Button size="large" color="primary" onClick={validateCart}>
-                Valider le panier
-            </Button>
+            <Grid item xs={12} style={{ display: 'flex', justifyContent: 'center' }}>
+                <Button variant="contained" color="primary" onClick={validateCart}>
+                    Valider le panier
+                </Button>
+            </Grid>
         </Grid>
     );
 };

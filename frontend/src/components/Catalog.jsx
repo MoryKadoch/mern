@@ -51,6 +51,7 @@ const useStyles = makeStyles((theme) => ({
 const Catalog = () => {
     const classes = useStyles();
     const [products, setProducts] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -71,9 +72,24 @@ const Catalog = () => {
         localStorage.setItem('cart', JSON.stringify(cart));
     };
 
+    const handleSearchChange = event => {
+        setSearchTerm(event.target.value);
+    };
+
+    const filteredProducts = products.filter(product =>
+        product.title.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
     return (
-        <Grid container spacing={4}>
-            {products.map(product => (
+        <Grid container spacing={4} style={{ padding: '20px 0' }}>
+            <TextField
+                style={{ margin: '10px auto', width: '80%' }}
+                variant="outlined"
+                value={searchTerm}
+                onChange={handleSearchChange}
+                placeholder="Rechercher un produit..."
+            />
+            {filteredProducts.map(product => (
                 <Grid item xs={12} sm={6} md={4} lg={3} key={product._id}>
                     <Card className={classes.root}>
                         <CardActionArea>

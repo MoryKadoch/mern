@@ -58,7 +58,7 @@ router.get('/:id', (req, res) => {
 });
 
 // Route pour déduire la quantité commandée du stock
-router.post('/deduct-stock/:id', auth, (req, res) => {
+router.post('/deduct-stock/:id', (req, res) => {
   const { quantity } = req.body;
   const productId = req.params.id;
 
