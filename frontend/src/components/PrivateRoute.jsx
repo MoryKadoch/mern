@@ -1,10 +1,10 @@
 import { Navigate, Outlet } from 'react-router-dom';
 
-function PrivateRoute({ roleRequired }) {
+function PrivateRoute({ rolesRequired = [] }) {
     const token = localStorage.getItem('jwt');
     const role = localStorage.getItem('role');
 
-    return (token && role === roleRequired) ? (
+    return (token && rolesRequired.includes(role)) ? (
         <Outlet />
     ) : (
         <Navigate to="/login" replace={true} />

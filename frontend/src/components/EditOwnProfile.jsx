@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { Container, TextField, Button, Typography, Box } from '@material-ui/core';
+import jwtDecode from 'jwt-decode';
 
-const EditUserForm = () => {
-    const { id } = useParams();
+const EditOwnProfile = () => {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
@@ -14,12 +13,13 @@ const EditUserForm = () => {
         const fetchUser = async () => {
             try {
                 const token = localStorage.getItem('jwt');
+                const userId = jwtDecode(token).userId;
                 const config = {
                     headers: {
                         Authorization: token ? `Bearer ${token}` : '',
                     },
                 };
-                const response = await axios.get(`http://localhost:5000/api/user/${id}`, config);
+                const response = await axios.get(`http://localhost:5000/api/user/${userId}`, config);
                 setFirstName(response.data.firstName);
                 setLastName(response.data.lastName);
                 setEmail(response.data.email);
@@ -29,30 +29,30 @@ const EditUserForm = () => {
             }
         };
         fetchUser();
-    }, [id]);
+    }, []);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
         const updatedUser = { firstName, lastName, email, phone };
         try {
             const token = localStorage.getItem('jwt');
+            const userId = jwtDecode(token).userId;
             const config = {
                 headers: {
                     Authorization: token ? `Bearer ${token}` : '',
                 },
             };
-            await axios.put(`http://localhost:5000/api/user/${id}`, updatedUser, config);
-            window.location.href = '/user-list';
+            await axios.put(`http://localhost:5000/api/user/${userId}`, updatedUser, config);
         } catch (error) {
             console.error(error);
         }
     };
 
     return (
-        <Container maxWidth="xs">
+        <Container maxWidth="xs" style={{ marginTop: '20px', marginBottom: '20px' }}>
             <Box my={8}>
                 <Typography variant="h4" align="center" gutterBottom>
-                    Edit User
+                    Edit Profile
                 </Typography>
                 <form onSubmit={handleSubmit}>
                     <TextField
@@ -97,7 +97,7 @@ const EditUserForm = () => {
                         variant="contained"
                         color="primary"
                     >
-                        Update User
+                        Update Profile
                     </Button>
                 </form>
             </Box>
@@ -105,4 +105,4 @@ const EditUserForm = () => {
     );
 };
 
-export default EditUserForm;
+export default EditOwnProfile;

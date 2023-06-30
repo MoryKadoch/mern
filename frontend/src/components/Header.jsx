@@ -31,24 +31,32 @@ const Header = () => {
                             {role === 'admin' && (
                                 <>
                                     <Link to="/admin/user-list" style={{ color: 'white', textDecoration: 'none', marginLeft: '16px' }}>
-                                        Users
+                                        Utilisateurs
                                     </Link>
                                     <Link to="/admin/product-list" style={{ color: 'white', textDecoration: 'none', marginLeft: '16px' }}>
-                                        Products
+                                        Produits
                                     </Link>
                                 </>
                             )}
-                            <Link to="/logout" style={{ color: 'white', textDecoration: 'none', marginLeft: '16px' }} onClick={handleLogout}>
-                                Logout
-                            </Link>
+                            <>
+                                <Link to="/cart" style={{ color: 'white', textDecoration: 'none', marginLeft: '16px' }}>
+                                    Panier
+                                </Link>
+                                <Link to="/edit-profile" style={{ color: 'white', textDecoration: 'none', marginLeft: '16px' }}>
+                                    Mon compte
+                                </Link>
+                                <Link to="/logout" style={{ color: 'white', textDecoration: 'none', marginLeft: '16px' }} onClick={handleLogout}>
+                                    Déconnexion
+                                </Link>
+                            </>
                         </>
                     ) : (
                         <>
                             <Link to="/login" style={{ color: 'white', textDecoration: 'none', marginLeft: '16px' }}>
-                                Login
+                                Connexion
                             </Link>
                             <Link to="/signup" style={{ color: 'white', textDecoration: 'none', marginLeft: '16px' }}>
-                                Signup
+                                Inscription
                             </Link>
                         </>
                     )}

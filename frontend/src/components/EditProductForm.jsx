@@ -7,6 +7,7 @@ const EditProductForm = () => {
     const { id } = useParams();
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
+    const [price, setPrice] = useState('');
     const [stock, setStock] = useState('');
     const [img, setImg] = useState('');
 
@@ -16,6 +17,7 @@ const EditProductForm = () => {
                 const response = await axios.get(`http://localhost:5000/api/product/${id}`);
                 setTitle(response.data.title);
                 setDescription(response.data.description);
+                setPrice(response.data.price);
                 setStock(response.data.stock);
                 setImg(response.data.img);
             } catch (error) {
@@ -27,7 +29,7 @@ const EditProductForm = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        const updatedProduct = { title, description, stock, img };
+        const updatedProduct = { title, description, price, stock, img };
         try {
             const token = localStorage.getItem('jwt');
             const config = {
@@ -75,6 +77,15 @@ const EditProductForm = () => {
                         label="Stock"
                         value={stock}
                         onChange={(e) => setStock(e.target.value)}
+                    />
+                    <TextField
+                        variant="outlined"
+                        margin="normal"
+                        required
+                        fullWidth
+                        label="Price"
+                        value={price}
+                        onChange={(e) => setPrice(e.target.value)}
                     />
                     <TextField
                         variant="outlined"

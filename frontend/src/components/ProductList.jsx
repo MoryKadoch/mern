@@ -8,6 +8,7 @@ const ProductList = () => {
     const [newProduct, setNewProduct] = useState({
         title: '',
         description: '',
+        price: '',
         stock: '',
         img: ''
     });
@@ -76,6 +77,7 @@ const ProductList = () => {
             const response = await axios.post('http://localhost:5000/api/product/add', newProduct, config);
             setProducts([...products, response.data]);
             handleClose();
+            window.location.reload();
         } catch (error) {
             console.error(error);
         }
@@ -144,6 +146,7 @@ const ProductList = () => {
                     <form onSubmit={handleSubmit}>
                         <TextField name="title" label="Title" value={newProduct.title} onChange={handleChange} fullWidth margin="normal" />
                         <TextField name="description" label="Description" value={newProduct.description} onChange={handleChange} fullWidth margin="normal" />
+                        <TextField name="price" label="Price" value={newProduct.price} onChange={handleChange} fullWidth margin="normal" />
                         <TextField name="stock" label="Stock" value={newProduct.stock} onChange={handleChange} fullWidth margin="normal" />
                         <TextField name="img" label="URL de l'image" value={newProduct.img} onChange={handleChange} fullWidth margin="normal" />
                         <Button type="submit" variant="contained" color="primary" fullWidth style={{ marginTop: '20px' }}>
@@ -165,6 +168,7 @@ const ProductList = () => {
                             </TableCell>
                             <TableCell>Title</TableCell>
                             <TableCell>Description</TableCell>
+                            <TableCell>Price</TableCell>
                             <TableCell>Stock</TableCell>
                             <TableCell>Image</TableCell>
                             <TableCell>Action</TableCell>
@@ -182,6 +186,7 @@ const ProductList = () => {
                                 </TableCell>
                                 <TableCell component="th" scope="row">{product.title}</TableCell>
                                 <TableCell>{product.description}</TableCell>
+                                <TableCell>{product.price}</TableCell>
                                 <TableCell>{product.stock}</TableCell>
                                 <TableCell><img src={product.img} alt="product-img" style={{ width: '50px', height: '50px' }} /></TableCell>
                                 <TableCell>
