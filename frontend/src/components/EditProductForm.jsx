@@ -45,7 +45,7 @@ const EditProductForm = () => {
     };
 
     return (
-        <Container maxWidth="xs">
+        <Container maxWidth="xs" style={{ marginTop: '10px', marginBottom: '10px' }}>
             <Box my={8}>
                 <Typography variant="h4" align="center" gutterBottom>
                     Edit Product

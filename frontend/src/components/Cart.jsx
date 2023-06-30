@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Grid, Card, CardContent, CardMedia, Typography, Button } from '@material-ui/core';
+import { Grid, TableContainer, Table, TableHead, TableBody, TableRow, TableCell, Typography, Button } from '@material-ui/core';
 
 const Cart = () => {
     const [cart, setCart] = useState({});
@@ -22,7 +22,7 @@ const Cart = () => {
         fetchProducts();
     }, []);
 
-    if (Object.keys(cart).length === 0 && cart.constructor === Object) {
+    if (Object.keys(cart).length === 0 || products.length === 0) {
         return <Typography variant="h2">Votre panier est vide</Typography>;
     }
 
@@ -45,30 +45,42 @@ const Cart = () => {
         setCart({});
     };
 
-    if (products.length === 0) {
-        return <Typography variant="h2">Chargement...</Typography>;
-    }
-
     return (
         <Grid container spacing={4} style={{ padding: '20px 0' }}>
-            {Object.keys(cart).map((productId, index) => (
-                <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
-                    <Card>
-                        <CardContent>
-                            <CardMedia component="img" alt={productId} height="140" image={products.find(product => product._id === productId).img} />
-                            <Typography gutterBottom variant="h5" component="h2">
-                                {products.find(product => product._id === productId).title}
-                            </Typography>
-                            <Typography variant="body2" color="textSecondary" component="p">
-                                Quantity: {cart[productId]}
-                            </Typography>
-                            <Button size="small" color="primary" onClick={() => removeFromCart(productId)}>
-                                Retirer du panier
-                            </Button>
-                        </CardContent>
-                    </Card>
-                </Grid>
-            ))}
+            <Grid item xs={12}>
+                <TableContainer>
+                    <Table>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>Image</TableCell>
+                                <TableCell>Titre</TableCell>
+                                <TableCell>Quantité</TableCell>
+                                <TableCell>Retirer du panier</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {Object.keys(cart).map((productId, index) => (
+                                <TableRow key={index}>
+                                    <TableCell>
+                                        <img src={products.find(product => product._id === productId).img} alt={productId} height="100" />
+                                    </TableCell>
+                                    <TableCell>
+                                        {products.find(product => product._id === productId).title}
+                                    </TableCell>
+                                    <TableCell>
+                                        {cart[productId]}
+                                    </TableCell>
+                                    <TableCell>
+                                        <Button size="small" color="primary" onClick={() => removeFromCart(productId)}>
+                                            Retirer
+                                        </Button>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+            </Grid>
             <Grid item xs={12} style={{ display: 'flex', justifyContent: 'center' }}>
                 <Button variant="contained" color="primary" onClick={validateCart}>
                     Valider le panier
